@@ -162,8 +162,8 @@ chirp/
 ### 1. Clone repository
 
 ```bash
-git clone https://github.com/<your-username>/chirp-chat-app.git
-cd chirp-chat-app
+git clone https://github.com/souryaghosh23/Chrip.git
+cd Chirp
 ```
 
 ---
