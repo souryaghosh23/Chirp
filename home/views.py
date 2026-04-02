@@ -190,4 +190,3 @@ def twilio_service(request):
         logging.error(msg=f'Problem sending OTP, {str(e)}')
         return redirect('verify_otp')
             
-#Update the views to show the messages in a proper format.
