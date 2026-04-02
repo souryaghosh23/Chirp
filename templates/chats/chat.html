@@ -1,0 +1,221 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Chat</title>
+    {% load static %}
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        height: 100vh;
+        display: flex;
+      }
+
+      /* MAIN LAYOUT */
+
+      .container {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+      }
+
+      /* LEFT SIDEBAR */
+
+      .sidebar {
+        width: 30%;
+        background: #f0f2f5;
+        border-right: 1px solid #ddd;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .profile-bar {
+        padding: 15px;
+        background: #ededed;
+        font-weight: bold;
+      }
+
+      .search {
+        padding: 10px;
+      }
+
+      .search input {
+        width: 100%;
+        padding: 8px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+      }
+
+      .chat-list {
+        flex: 1;
+        overflow-y: auto;
+      }
+
+      .chat-item {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+      }
+
+      .chat-item:hover {
+        background: #e9edef;
+      }
+
+      /* RIGHT CHAT PANEL */
+
+      .chat-panel {
+        width: 70%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* HEADER */
+
+      .chat-header {
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+        background: #f0f2f5;
+        font-weight: bold;
+      }
+
+      /* MESSAGE AREA */
+
+      .chat-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background: #efeae2;
+      }
+
+      .message {
+        padding: 8px 12px;
+        margin: 5px 0;
+        max-width: 60%;
+        border-radius: 10px;
+      }
+
+      .message.me {
+        background: #d9fdd3;
+        margin-left: auto;
+      }
+
+      .message.other {
+        background: white;
+      }
+
+      /* INPUT BAR */
+
+      .chat-input {
+        display: flex;
+        padding: 10px;
+        border-top: 1px solid #ddd;
+        background: #f0f2f5;
+      }
+
+      .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+      }
+
+      .chat-input button {
+        margin-left: 10px;
+        padding: 10px 16px;
+        border: none;
+        background: #00a884;
+        color: white;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .chat-input button:hover {
+        background: #008f72;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <!-- LEFT SIDEBAR -->
+
+      <div class="sidebar">
+        <div class="profile-bar">Your Chats</div>
+
+        <div class="search">
+          <input type="text" placeholder="Search or start new chat" />
+        </div>
+
+        <div class="chat-list">
+          <!-- Example chat items -->
+          <div class="chat-item">Rahul</div>
+          <div class="chat-item">Amit</div>
+          <div class="chat-item">Friends Group</div>
+        </div>
+      </div>
+
+      <!-- RIGHT CHAT PANEL -->
+
+      <div class="chat-panel">
+        <div class="chat-header">Room: {{ room_name }}</div>
+
+        <div id="chat-log" class="chat-messages"></div>
+
+        <div class="chat-input">
+          <input
+            id="chat-message-input"
+            type="text"
+            placeholder="Type a message"
+          />
+          <button id="chat-message-submit">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const roomId = "{{ room_id }}";
+      const chatSocket = new WebSocket(
+        "ws://" + window.location.host + "/ws/chat/" + roomId + "/",
+      );
+
+      const chatLog = document.getElementById("chat-log");
+
+      chatSocket.onmessage = function (e) {
+        const data = JSON.parse(e.data);
+
+        const messageDiv = document.createElement("div");
+
+        messageDiv.classList.add("message");
+
+        if (data.sender === "{{ request.user.username }}") {
+          messageDiv.classList.add("me");
+        } else {
+          messageDiv.classList.add("other");
+        }
+
+        messageDiv.innerText = data.sender + ": " + data.message;
+
+        chatLog.appendChild(messageDiv);
+
+        chatLog.scrollTop = chatLog.scrollHeight;
+      };
+
+      document.getElementById("chat-message-submit").onclick = function () {
+        const input = document.getElementById("chat-message-input");
+
+        const message = input.value;
+
+        if (message.trim() !== "") {
+          chatSocket.send(
+            JSON.stringify({
+              message: message,
+            }),
+          );
+
+          input.value = "";
+        }
+      };
+    </script>
+  </body>
+</html>

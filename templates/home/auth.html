@@ -1,0 +1,103 @@
+{%extends 'base_auth.html' %}
+ 
+    {% block title %}Chirp - Register{% endblock %}
+
+    {%block extra_css%}
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+         html {
+        box-sizing: border-box;
+        }
+
+        *, *::before, *::after {
+        box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+            system-ui,
+            -apple-system,
+            Segoe UI,
+            Roboto;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f6f7f7;
+            position: relative;
+        }
+        
+        .card {
+            position: relative;
+            z-index: 10;
+            width: 420px;
+            background: white;
+            border-radius: 20px;
+            padding: 45px 40px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        .input-group input{
+            width:100%;
+            height:50px;
+            padding:0 16px;
+            border-radius:10px;
+            border:1px solid #d1d7db;
+            font-size:15px;
+            background:#ffffff;     /* ensures white box */
+            outline:none;
+            transition:all 0.2s ease;
+        }
+
+        .input-group input:focus{
+            border-color:#25D366;
+            box-shadow:0 0 0 3px rgba(37,211,102,0.1);
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-family: 'Playpen Sans Dev', sans-serif;
+        }
+        
+        .desc {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 25px;
+        }
+    </style>
+    {%endblock%}
+
+    {%block body%}
+    <div class="card">
+    
+        <div class="title">Create Account</div>
+        <div class="desc">Join and start chatting instantly</div>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <input type="text" name="full_name" placeholder="Full Name" required>
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-group">
+                <input type="text" name="phone" placeholder="Phone Number" required>
+            </div>
+
+            <button type="submit" class="verify-btn">Register</button>
+        </form>
+
+    </div>
+
+    {%endblock%}
