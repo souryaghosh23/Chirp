@@ -23,19 +23,18 @@ def send_otp(phone_number, channel='sms'):
     """
     otp = str(secrets.randbelow(900000) + 100000)
     code= hashlib.sha256(otp.encode()).hexdigest()
-    logging.info(msg=f'OTP: {otp}')
 
-    # payload = {
-    # "route": "q",
-    # "message": f"Your Chirp verification code is: {otp}.\
-    # Don't share this code with anyone; our employees will never ask for the code",
-    # "numbers": phone_number,
-    # "sms_details": "1"
-    # }
-    # try:
-    #     response = requests.post(url, headers=headers, json=payload)
-    # except Exception as e:
-    #     logging.error(f"Couldn't generate otp due to {str(e)}")
-    #     code = None
+    payload = {
+    "route": "q",
+    "message": f"Your Chirp verification code is: {otp}.\
+    Don't share this code with anyone; our employees will never ask for the code",
+    "numbers": phone_number,
+    "sms_details": "1"
+    }
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+    except Exception as e:
+        logging.error(f"Couldn't generate otp due to {str(e)}")
+        code = None
 
     return code
