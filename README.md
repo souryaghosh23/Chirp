@@ -25,14 +25,20 @@ This project goes beyond a basic chat app by incorporating asynchronous communic
 ## 🧠 Tech Stack
 
 ### Backend
-
+* Python
 * Django
-* Django Channels
-* ASGI
+
 
 ### Real-Time Infrastructure
 
+* Django Channels
+* ASGI
+* WebSocket
 * Redis (channel layer)
+
+### ORM
+* Django ORM (no raw SQL)
+* Abstracts DB operations
 
 ### Database
 
@@ -40,8 +46,12 @@ This project goes beyond a basic chat app by incorporating asynchronous communic
 
 ### Authentication
 
-* FastAPI (OTP service)
+* Fast2API (OTP service)
 * API Key-based access control
+
+### Routing Layer
+* Django URLs
+* WebSocket Routing
 
 ### DevOps / Environment
 
