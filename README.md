@@ -154,7 +154,7 @@ chirp/
 │   └── models.py
 │
 ├── home/
-├── config/
+├── root/
 │   ├── settings.py
 │   ├── asgi.py
 │   └── routing.py
